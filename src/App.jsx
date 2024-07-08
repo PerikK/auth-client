@@ -60,6 +60,9 @@ export default function App() {
 
     if (data.token) {
       setLoginResponse(data); 
+      localStorage.setItem("JWT", data.token);
+
+      // console.log('ls',localStorage.getItem('jwt'));
     } else {
       console.log('Invalid username or password');
     }
