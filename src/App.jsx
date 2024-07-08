@@ -8,50 +8,65 @@ export default function App() {
   const [registerResponse, setRegisterResponse] = useState('');
   const [loginResponse, setLoginResponse] = useState('');
 
+
   const register = async (e) => {
-    e.preventDefault();
-    // Write your register code here
-    fetch('http://localhost:4000/register', {
+  e.preventDefault();
+
+  if (!user || !user.username || !user.password) {
+    console.log('Both username and password must be provided');
+    return;
+  }
+
+  try {
+    const response = await fetch('http://localhost:4000/register', {
       method: 'POST',
       headers: {
-        'Content-type': 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username: user.username,
-        password: user.password
-      })
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setRegisterResponse(data)
-      }).catch((error) => {
-        console.error(error)
-      })
-  };
+        password: user.password,
+      }),
+    });
+
+    const data = await response.json();
+    setRegisterResponse(data); 
+  } catch (error) {
+    console.error('There was an error during registration:', error);
+  }
+};
 
   const login = async (e) => {
-    e.preventDefault();
-    // Write your login code here
-       fetch('http://localhost:4000/login', {
+  e.preventDefault();
+
+  if (!user || !user.username || !user.password) {
+    console.log('Both username and password must be provided');
+    return;
+  }
+
+  try {
+    const response = await fetch('http://localhost:4000/login', {
       method: 'POST',
       headers: {
-        'Content-type': 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         username: user.username,
-        password: user.password
-      })
-       }).then((res) => res.json())
-         .then((data) => {
-           if (data.token) {
-            setLoginResponse(data)
-           } else {
-             console.log('Invalid username or password');
-          }
-         }).catch((error) => {
-      console.error(error)
-    })
-  };
+        password: user.password,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.token) {
+      setLoginResponse(data); 
+    } else {
+      console.log('Invalid username or password');
+    }
+  } catch (error) {
+    console.error('There was an error during login:', error);
+  }
+};
 
   // You can safely ignore everything below this line, it's just boilerplate
   // so you can focus on the exercise requirements
