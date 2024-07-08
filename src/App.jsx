@@ -24,15 +24,33 @@ export default function App() {
       .then((res) => res.json())
       .then((data) => {
         setRegisterResponse(data)
-      }).catch((e) => {
-        console.error(e)
+      }).catch((error) => {
+        console.error(error)
       })
   };
 
   const login = async (e) => {
     e.preventDefault();
     // Write your login code here
-    
+       fetch('http://localhost:4000/login', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: user.username,
+        password: user.password
+      })
+       }).then((res) => res.json())
+         .then((data) => {
+           if (data.token) {
+            setLoginResponse(data)
+           } else {
+             console.log('Invalid username or password');
+          }
+         }).catch((error) => {
+      console.error(error)
+    })
   };
 
   // You can safely ignore everything below this line, it's just boilerplate
