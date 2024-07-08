@@ -11,13 +11,28 @@ export default function App() {
   const register = async (e) => {
     e.preventDefault();
     // Write your register code here
-
+    fetch('http://localhost:4000/register', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: user.username,
+        password: user.password
+      })
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setRegisterResponse(data)
+      }).catch((e) => {
+        console.error(e)
+      })
   };
 
   const login = async (e) => {
     e.preventDefault();
     // Write your login code here
-
+    
   };
 
   // You can safely ignore everything below this line, it's just boilerplate
